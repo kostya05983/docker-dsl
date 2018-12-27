@@ -7,7 +7,8 @@ class Runner {
                 version = "3"
                 services {
                     name = "web"
-                    build = "."
+                    build ("./")
+
                     ports {
                         local = 5000
                         server = 5000

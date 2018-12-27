@@ -29,17 +29,37 @@ class DockerCompose {
         return append(tag).append(Delimeter).append(value)
     }
 
+    private fun StringBuilder.appendTagValueln(tag: String, value: String): StringBuilder {
+        return appendTag(tag).append(Delimeter).append(value).appendln()
+    }
+
     private fun StringBuilder.appendTag(tag: String): StringBuilder {
-        return append(tag).appendln(Delimeter)
+        return append(tag).append(Delimeter)
+    }
+
+    private fun StringBuilder.appendTagln(tag: String): StringBuilder {
+        return append(tag).append(Delimeter).appendln()
+    }
+
+    private fun StringBuilder.appendBuild(build: Build): StringBuilder {
+        append(currentTab).appendTagValue(Tags.Context.value, build.context!!)
+        append(currentTab).appendTagValue(Tags.DockerFile.value, build.dockerFile!!)
+        return this
     }
 
     private fun StringBuilder.appendService(service: Service) {
         append(currentTab).appendTag(service.name)
         currentTab += "\t"
-        if (service.build != null) {
-            append(currentTab).appendTagValue(Tags.Build.value, service.build!!)
-        } else {
-            append(currentTab).appendTagValue(Tags.Image.value, service.image!!)
+        when {
+            service.buildStr != null -> {
+                append(currentTab).appendTagValue(Tags.Build.value, service.buildStr!!)
+            }
+            service.build != null -> {
+                appendBuild(service.build!!)
+            }
+            service.image != null -> {
+                append(currentTab).appendTagValue(Tags.Image.value, service.image!!)
+            }
         }
 
         appendln()
