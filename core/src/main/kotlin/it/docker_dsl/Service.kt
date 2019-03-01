@@ -1,3 +1,5 @@
+package it.docker_dsl
+
 import java.util.*
 
 class Service {

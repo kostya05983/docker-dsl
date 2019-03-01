@@ -1,3 +1,5 @@
+package it.docker_dsl
+
 class Runner {
 
     companion object {
@@ -7,7 +9,7 @@ class Runner {
                 version = "3"
                 services {
                     name = "web"
-                    build ("./")
+                    build("./")
 
                     ports {
                         local = 5000

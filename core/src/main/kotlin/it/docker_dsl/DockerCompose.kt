@@ -1,3 +1,5 @@
+package it.docker_dsl
+
 import java.util.*
 
 class DockerCompose {
@@ -67,7 +69,7 @@ class DockerCompose {
             append(currentTab).appendTag(Tags.Ports.value).appendln()
             currentTab = "\t\t\t"
             service.ports.forEach {
-                append(currentTab).append("\"${it.local}").append(Delimeter).append("${it.server}\"").appendln()
+                append(currentTab).append("\"${it.local}").append(it.kostya05983.DockerCompose.Companion.Delimeter).append("${it.server}\"").appendln()
             }
         }
         currentTab = "\t\t"
@@ -76,7 +78,7 @@ class DockerCompose {
             append(currentTab).appendTag(Tags.Volumes.value).appendln()
             currentTab = "\t\t\t"
             service.volumes.forEach {
-                append(currentTab).append(it.local).append(Delimeter).append(it.server)
+                append(currentTab).append(it.local).append(it.kostya05983.DockerCompose.Companion.Delimeter).append(it.server)
             }
         }
 
