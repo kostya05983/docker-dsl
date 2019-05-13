@@ -1,4 +1,4 @@
-package it.docker_dsl
+package org.docker_dsl
 
 class Arg {
     lateinit var name: String

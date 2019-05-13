@@ -1,4 +1,4 @@
-package it.docker_dsl
+package org.docker_dsl
 
 import java.util.*
 

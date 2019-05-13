@@ -1,7 +1,7 @@
-import it.docker_dsl.yaml.builder.YamlBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.FileReader
+import org.docker_dsl.yaml.builder.YamlBuilder
 
 class YamlBuilderTest {
 
@@ -17,9 +17,9 @@ class YamlBuilderTest {
      *     image: "redis:alpine"
      */
     @Test
-    fun example1() {
+    fun parameterizedTest() {
         val fr = FileReader("src/test/resources/docker_compose/example1.yml")
-        val yamlFile = fr.readLines().joinToString("\n")
+        val yamlFile = fr.readText()
 
         val yb = YamlBuilder()
         yb.writeTag("version", "'3'")
@@ -33,6 +33,7 @@ class YamlBuilderTest {
         yb.writeTag("redis")
         yb.indent()
         yb.writeTag("image", "\"redis:alpine\"")
+        assertEquals(yamlFile, yb.toString())
     }
 
     @Test
@@ -59,7 +60,7 @@ class YamlBuilderTest {
         yb.writeTagArray("ports", "\"5000:5000\"")
 
         val sb = StringBuilder().append("ports:\n")
-                .append("  - \"5000:5000\"")
+                .append("  - \"5000:5000\"\n")
         assertEquals(sb.toString(), yb.toString())
     }
 }

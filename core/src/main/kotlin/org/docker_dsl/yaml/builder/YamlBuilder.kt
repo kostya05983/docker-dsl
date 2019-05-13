@@ -1,4 +1,4 @@
-package it.docker_dsl.yaml.builder
+package org.docker_dsl.yaml.builder
 
 /**
  * class for yaml buildings
@@ -6,17 +6,16 @@ package it.docker_dsl.yaml.builder
  */
 class YamlBuilder {
     companion object {
-        const val DEVIDER_WITH_NEWLINE = ":\n"
-        const val DEVIDER = ": "
-        const val INCREMENT_INDENT = "  "
-        const val ARRAY_KEY = "- "
+        private const val DEVIDER_WITH_NEWLINE = ":\n"
+        private const val DEVIDER = ": "
+        private const val INCREMENT_INDENT = "  "
+        private const val ARRAY_KEY = "- "
     }
 
-    var currentIndent = ""
+    private val currentIndent = StringBuilder()
     var amountIndent = 0
 
-    val sb = StringBuilder()
-
+    private val sb = StringBuilder()
 
     /**
      * @param - tag which is wrote left
@@ -28,7 +27,7 @@ class YamlBuilder {
      * version:
      */
     fun writeTag(tag: String) {
-        sb.append(tag).append(DEVIDER_WITH_NEWLINE)
+        sb.append(currentIndent).append(tag).append(DEVIDER_WITH_NEWLINE)
     }
 
     /**
@@ -42,7 +41,7 @@ class YamlBuilder {
      * version: '3'
      */
     fun writeTag(tag: String, value: String) {
-        sb.append(tag).append(DEVIDER).append(value).append("\n")
+        sb.append(currentIndent).append(tag).append(DEVIDER).append(value).append("\n")
     }
 
     /**
@@ -56,12 +55,12 @@ class YamlBuilder {
      *   - "5000:5000"
      */
     fun writeTagArray(tag: String, vararg list: String) {
-        sb.append(tag).append(DEVIDER_WITH_NEWLINE)
+        sb.append(currentIndent).append(tag).append(DEVIDER_WITH_NEWLINE)
         indent()
         for (value in list) {
             sb.append(currentIndent).append(ARRAY_KEY)
                     .append(value)
-            if (list.last() != value) {
+            if (list.last() == value) {
                 sb.append("\n")
             }
         }
@@ -73,7 +72,7 @@ class YamlBuilder {
      */
     fun indent() {
         amountIndent++
-        currentIndent += INCREMENT_INDENT
+        currentIndent.append(INCREMENT_INDENT)
     }
 
     /**
@@ -81,8 +80,10 @@ class YamlBuilder {
      */
     fun dedent() {
         amountIndent--
-        for (i in 0 until amountIndent)
-            currentIndent += INCREMENT_INDENT
+        currentIndent.clear()
+        for (i in 0 until amountIndent) {
+            currentIndent.append(INCREMENT_INDENT)
+        }
     }
 
     override fun toString(): String {
